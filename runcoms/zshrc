@@ -5,9 +5,177 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
+# Customize to your needs...
+
+# begin devtools provisioning to setup local development
+
+# Remove any existing /box/www/devtools_readonly/bin from the path
+PATH=$(echo $PATH | sed 's/\/box\/www\/devtools_readonly\/bin[:]*//g')
+
+# This is for react native setup
+export ANDROID_HOME=${HOME}/Library/Android/sdk
+export PATH=${PATH}:${ANDROID_HOME}/tools
+export PATH=${PATH}:${ANDROID_HOME}/platform-tools
+export PATH="/box/app/deployment-config/scripts/:$PATH"
+export PATH="/usr/local/opt/curl-openssl/bin/:$PATH"
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home
+export PATH=${PATH}:/box/app/admin-console/node_modules/.bin
+export PATH=${PATH}:/Users/dyang/Projects/swagger-codegen/bin
+# export NODE_OPTIONS=--max_old_space_size=8192
+
+# Remove any existing /usr/local/bin from the path
+PATH=$(echo $PATH | sed 's/\/usr\/local\/bin[:]*//g')
+
+# Add /usr/local/bin and /box/www/devtools_readonly/bin to the top of your PATH
+export PATH=/usr/local/bin:/box/www/devtools_readonly/bin:$PATH
+# end devtools provisioning
+
+export PATH="/usr/local/opt/curl/bin:$PATH"
+
+# This line was automatically added by Toolbox.
+# export PATH="/Users/dyang/.toolbox/homebrew/toolbox-bin:/Users/dyang/.toolbox/homebrew/sbin:/projects/depot_tools:$PATH"
+
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
 # Customize to your needs...
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+alias prof="code ~/.zshrc"
+alias reprof=". ~/.zshrc"
+alias notes="cd ~/Projects/box/box-notes"
+alias ac="cd ~/Projects/admin-console"
+alias tool="cd ~/Projects/box/notes_dev_tools"
+alias desktop="~/Projects/box/box-notes-desktop"
+alias lla="ls -lsat"
+alias ll="ls -ls"
+alias proj="cd ~/Projects"
+alias gs="git rev-parse HEAD | git show"
+alias gsc="git rev-parse HEAD | xargs git show --name-status"
+alias gsf="git show --pretty="" --name-only HEAD"
+alias glp='git log --pretty=format:"%h | %Cgreen%aN%Creset | %cd | %Cgreen%s%Creset"'
+alias box='/box/www/current_local'
+alias debugssh='ssh dyang.dev.box.net -R "9000:localhost:9000"'
+alias gds='git diff --staged'
+alias lrsync='/projects/dev_tools/lrsync.sh'
+alias gcc='git checkout -f && git clean -fd'
+alias gcm='git checkout master'
+alias gc='git checkout'
+alias gford='git fetch origin && git rebase origin/dev'
+alias gfsrd='git fetch scm && git rebase scm/v5-dev'
+alias gform='git fetch origin && git rebase origin/master'
+# alias gitbranchrm='git branch | grep -ve 'dev\|slate\|redux\|hackathon-slate' | xargs git branch -D'
+# alias gbrm='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d'
+alias confsync='scp dyang.dev.box.net:/box/www/current/conf/conf_set.conf /box/www/current_local/conf/conf_set.conf'
+alias acs='cd /box/app/admin-console'
+alias eua='cd /box/EndUserApp'
+alias euw='cd /box/app/end-user-web'
+alias gd='git branch -D'
+alias gcp="git cherry-pick"
+alias buie="cd ~/Projects/box-ui-elements"
+alias sa="cd ~/Projects/shield-admin"
+alias updateFlow="node --max_old_space_size=8192 node_modules/flow-typed/dist/cli.js install"
+alias z="cd ~/.zprezto"
+
+# alias kubectlLog='kubectl logs -f -n=api-gateway-dev api-gateway'
+# kubectl describe pods --namespace api-gateway-dev
+alias kubeWide='kubectl get pods --all-namespaces -o wide'
+alias kubectlAll='kubectl get pods --all-namespaces'
+# git log --name-status --oneline -- ./features.conf.in  7b2e945cb95aa79da581ee2f75f7b2d700252249 16b50dc04a366c8912f8b90c62335e7b8ffc520e
+# git diff --name-only | xargs git checkout --ours
+# kubectl get pods --namespace=shield-admin-prod
+# kubectl delete pod -n=shield-admin-prod
+
+# Get available PID for the port used
+# lsof -n -i4TCP:3004
+
+
+# iTerm2 tab color commands
+# https://iterm2.com/documentation-escape-codes.html
+
+# if [[ -n "$ITERM_SESSION_ID" ]]; then
+#     tab-color() {
+#         echo -ne "\033]6;1;bg;red;brightness;$1\a"
+#         echo -ne "\033]6;1;bg;green;brightness;$2\a"
+#         echo -ne "\033]6;1;bg;blue;brightness;$3\a"
+#     }
+#     tab-red() { tab-color 255 0 0 }
+#     tab-green() { tab-color 0 255 0 }
+#     tab-blue() { tab-color 0 0 255 }
+#     tab-reset() { echo -ne "\033]6;1;bg;*;default\a" }
+
+#     function iterm2_tab_precmd() {
+#         tab-reset
+#     }
+
+#     function iterm2_tab_preexec() {
+#         if [[ "$1" =~ "^ssh " ]]; then
+#             if [[ "$1" =~ "prod" ]]; then
+#                 tab-color 255 160 160
+#             else
+#                 tab-color 160 255 160
+#             fi
+#         else
+#             tab-color 160 160 255
+#         fi
+#     }
+
+#     autoload -U add-zsh-hook
+#     add-zsh-hook precmd  iterm2_tab_precmd
+#     add-zsh-hook preexec iterm2_tab_preexec
+# fi
+
+ssh-add -K
+
+# delete the staging pods
+# kubectl delete pods -n security-intelligence-staging ${podname}
+# Get all the pods
+# kubectl get pods -n security-intelligence-staging
+
+# Add the following to gundam repo under config/local.yaml
+# plugins:
+# gundamOas:
+#   options:
+#     originPattern: http://localhost:8080
+
+
+# copy certificate
+# sudo scp dev:/etc/pki/tls/certs/ca-bundle.crt /etc/pki/tls/certs/ca-bundle.crt
+
+# Install flow with mem set
+
+#alias devdb="mysql -A -u eng -pmsm43kfl -h dev-db7002.dsv31.boxdc.net box"
+#alias shard1="mysql -u eng -pmsm43kfl -h dev-db7002.dsv31.boxdc.net -P3308 app_shard1"
+#alias shard2="mysql -u eng -pmsm43kfl -h dev-db7002.dsv31.boxdc.net -P3308 app_shard2"
+#alias shard3="mysql -u eng -pmsm43kfl -h dev-db7002.dsv31.boxdc.net -P3308 app_shard3"
+#alias shard4="mysql -u eng -pmsm43kfl -h dev-db7002.dsv31.boxdc.net -P3308 app_shard4"
+#alias shard5="mysql -u eng -pmsm43kfl -h dev-db7002.dsv31.boxdc.net -P3308 app_shard5"
+#alias shardmap="mysql -u eng -pmsm43kfl -h dev-db7002.dsv31.boxdc.net -P3307 app_mapping"
+
+# alias sa='kubectl get pods -n shield-admin-prod -o wide --show-all'
+# alias delSA='kubectl delete pod -n shield-admin-prod '
+# alias watchSA='watch kubectl get pods -n shield-admin-prod -o wide --show-all'
+# alias sis='kubectl get pods -n security-intelligence-prod -o wide --show-all'
+# alias delSIS='kubectl delete pod -n security-intelligence-prod '
+# alias watchSIS='watch kubectl get pods -n security-intelligence-prod -o wide --show-all'
+# alias sisAll='echo "  -- VSV1 --" && vsv1 && sis && echo "  -- LV7 --" && lv7 && sis && echo "-- Done"'
+# alias saAll='echo "  -- VSV1 --" && vsv1 && sa && echo "  -- LV7 --" && lv7 && sa && echo "-- Done"'
+# alias acs='kubectl get pods -n admin-console-prod -o wide --show-all'
+# alias delACS='kubectl delete pod -n admin-console-prod '
+# alias acsAll='echo "  -- VSV1 --" && vsv1 && acs && echo "  -- LV7 --" && lv7 && acs && echo "-- Done"'
+# alias saExec='kubectl exec -ti -n shield-admin-prod -c shield-admin'
+# alias sisExec='kubectl exec -ti -n security-intelligence-prod -c security-intelligence'
+
+
+# alias reload='source ~/.bash_profile'
+# alias profile='vi ~/.bash_profile'
+
+# alias vsv1='kubectl config use-context vsv1'
+# alias lv7='kubectl config use-context lv7'
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
